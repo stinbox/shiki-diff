@@ -19,3 +19,7 @@
     text-decoration: var(--shiki-dark-text-decoration);
   }
 }
+
+.shiki {
+  @apply text-sm p-4 h-full;
+}

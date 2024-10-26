@@ -1,4 +1,4 @@
-import { Suspense, use } from "react";
+import { Suspense, use, useMemo } from "react";
 import { createHighlighterCore, HighlighterCore } from "shiki/core";
 import { createOnigurumaEngine } from "shiki/engine/oniguruma";
 import {
@@ -7,12 +7,6 @@ import {
   transformerNotationWordHighlight,
   transformerNotationFocus,
   transformerNotationErrorLevel,
-  transformerRenderWhitespace,
-  transformerMetaHighlight,
-  transformerMetaWordHighlight,
-  transformerCompactLineOptions,
-  transformerRemoveLineBreak,
-  transformerRemoveNotationEscape,
 } from "@shikijs/transformers";
 import "./syntax-highlighter.css";
 
@@ -52,16 +46,24 @@ export const SyntaxHighlighter: React.FC<{
   language: string;
   code: string;
   useTransforms?: boolean;
-}> = ({ language, code, useTransforms }) => {
-  const highlighterPromise = getHighlighter();
+  className?: string;
+}> = ({ language, code, useTransforms, className }) => {
+  const highlighterPromise = useMemo(() => getHighlighter(), []);
 
   return (
-    <Suspense fallback={<pre>{code}</pre>}>
+    <Suspense
+      fallback={
+        <div className={className}>
+          <pre className="text-sm p-4">{code}</pre>
+        </div>
+      }
+    >
       <SyntaxHighlighterInner
         language={language}
         code={code}
         useTransforms={!!useTransforms}
         highlighterPromise={highlighterPromise}
+        className={className}
       />
     </Suspense>
   );
@@ -72,7 +74,8 @@ const SyntaxHighlighterInner: React.FC<{
   code: string;
   useTransforms: boolean;
   highlighterPromise: Promise<HighlighterCore>;
-}> = ({ language, code, useTransforms, highlighterPromise }) => {
+  className?: string;
+}> = ({ language, code, useTransforms, highlighterPromise, className }) => {
   const highlighter = use(highlighterPromise);
 
   const highlighted = highlighter.codeToHtml(code, {
@@ -89,15 +92,14 @@ const SyntaxHighlighterInner: React.FC<{
           transformerNotationWordHighlight(),
           transformerNotationFocus(),
           transformerNotationErrorLevel(),
-          transformerRenderWhitespace(),
-          transformerMetaHighlight(),
-          transformerMetaWordHighlight(),
-          transformerCompactLineOptions(),
-          transformerRemoveLineBreak(),
-          transformerRemoveNotationEscape(),
         ]
       : undefined,
   });
 
-  return <div dangerouslySetInnerHTML={{ __html: highlighted }} />;
+  return (
+    <div
+      className={className}
+      dangerouslySetInnerHTML={{ __html: highlighted }}
+    />
+  );
 };
