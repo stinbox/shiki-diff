@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@shikijs/transformers": "^1.22.0",
+    "@shikijs/transformers": "^1.22.1",
     "@types/diff": "^5.2.3",
     "diff": "^7.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0-rc-cae764ce-20241025",
+    "react-dom": "^19.0.0-rc-cae764ce-20241025",
+    "react-router-dom": "^6.27.0",
     "shiki": "^1.22.0"
   },
   "devDependencies": {
