@@ -21,5 +21,37 @@
 }
 
 .shiki {
-  @apply text-sm p-4 h-full;
+  @apply text-sm p-4 h-full overflow-x-auto;
+}
+
+.shiki code {
+  @apply block w-fit;
+}
+
+.shiki .line.diff {
+  @apply inline-block w-[calc(100%+theme(spacing.4)*2)] relative -ml-4 pl-4;
+}
+
+.shiki .line.diff::before {
+  @apply inline-block absolute left-1;
+}
+
+.shiki .line.diff span {
+  @apply bg-transparent;
+}
+
+.shiki .line.diff.remove {
+  @apply bg-red-500/20;
+}
+
+.shiki .line.diff.remove::before {
+  @apply content-["-"] text-red-700 dark:text-red-300;
+}
+
+.shiki .line.diff.add {
+  @apply bg-green-500/20;
+}
+
+.shiki .line.diff.add::before {
+  @apply content-["+"] text-green-700 dark:text-green-300;
 }
