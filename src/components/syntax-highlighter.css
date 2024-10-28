@@ -25,7 +25,7 @@
 }
 
 .shiki code {
-  @apply block w-fit;
+  @apply block w-fit min-w-full;
 }
 
 .shiki .line.diff {

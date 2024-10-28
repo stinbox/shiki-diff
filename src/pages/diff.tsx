@@ -30,6 +30,7 @@ const LANGUAGES = [
   "sql",
   "tsx",
   "typescript",
+  "text",
 ] as const;
 
 const searchParamsSchema = v.objectAsync({
@@ -137,13 +138,27 @@ const EditorInner: React.FC<{
 const diffText = (oldText: string, newText: string): string => {
   const diffs = diffLines(oldText, newText);
 
-  return diffs.reduce((acc, diff) => {
-    if (diff.added) {
-      return acc + diff.value.replaceAll("\n", "// [!code ++]\n");
-    } else if (diff.removed) {
-      return acc + diff.value.replaceAll("\n", "// [!code --]\n");
-    } else {
-      return acc + diff.value;
-    }
-  }, "");
+  return diffs
+    .reduce((acc, diff) => {
+      if (diff.added) {
+        const concat =
+          acc +
+          diff.value
+            .split("\n")
+            .map((line) => (line ? line + "// [!code ++]" : ""))
+            .join("\n");
+        return concat.endsWith("\n") ? concat : concat + "\n";
+      } else if (diff.removed) {
+        const concat =
+          acc +
+          diff.value
+            .split("\n")
+            .map((line) => (line ? line + "// [!code --]" : ""))
+            .join("\n");
+        return concat.endsWith("\n") ? concat : concat + "\n";
+      } else {
+        return acc + diff.value;
+      }
+    }, "")
+    .trim();
 };
