@@ -12,7 +12,7 @@ import "./syntax-highlighter.css";
 
 let highlighter: HighlighterCore;
 
-const getHighlighter = async () => {
+const getHighlighter = async (): Promise<HighlighterCore> => {
   if (!highlighter) {
     highlighter = await createHighlighterCore({
       engine: createOnigurumaEngine(import("shiki/wasm")),
