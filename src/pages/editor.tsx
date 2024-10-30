@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { SyntaxHighlighter } from "../components/syntax-highlighter";
+import { ShikiHighlighter } from "../components/syntax-highlighter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as v from "valibot";
 import {
@@ -120,7 +120,7 @@ const EditorInner: React.FC<{
         </label>
       </div>
       <div className="relative rounded-xl border dark:border-zinc-700 grid-cols-1 grid-rows-1 overflow-hidden grid min-h-96 mt-4">
-        <SyntaxHighlighter
+        <ShikiHighlighter
           className="grid-rows-1 col-start-1 row-start-1 size-full"
           code={code}
           language={language}

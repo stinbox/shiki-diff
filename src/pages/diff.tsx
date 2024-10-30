@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { SyntaxHighlighter } from "../components/syntax-highlighter";
+import { ShikiHighlighter } from "../components/syntax-highlighter";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as v from "valibot";
 import {
@@ -124,9 +124,9 @@ const EditorInner: React.FC<{
           value={codenew}
           onChange={(e) => setCodeNew(e.target.value)}
         />
-        <SyntaxHighlighter
+        <ShikiHighlighter
           className="grid-rows-1 size-full rounded-xl border dark:border-zinc-700 overflow-hidden"
-          code={diffText(codeold, codenew)}
+          code={diffTextShiki(codeold, codenew)}
           language={language}
           useTransforms
         />
@@ -135,7 +135,7 @@ const EditorInner: React.FC<{
   );
 };
 
-const diffText = (oldText: string, newText: string): string => {
+const diffTextShiki = (oldText: string, newText: string): string => {
   const diffs = diffLines(oldText, newText);
 
   return diffs
